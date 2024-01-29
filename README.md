@@ -1,10 +1,16 @@
 # My Personal Project
 
-## A subtitle
+## A movie logger
 
-A *bulleted* list:
-- item 1
-- item 2
-- item 3
+The application will log the **movies** a user watches, alongside
+details like:
+- A rating e.g. from 0-10
+- A review
+- Whether the user would rewatch it 
 
-An example of text with **bold** and *italic* fonts.  
+The *intended user* would be anyone who would want to 
+keep track of the movies they watch as well as how much they 
+liked the movie. This project is of interest to me as I often
+watch movies when I have the free time to do so, and having an
+easy way to note down movies I watch as well as note down my 
+thoughts on them as they are fresh.

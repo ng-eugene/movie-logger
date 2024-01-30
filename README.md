@@ -14,3 +14,10 @@ liked the movie. This project is of interest to me as I often
 watch movies when I have the free time to do so, and having an
 easy way to note down movies I watch as well as note down my 
 thoughts on them as they are fresh.
+
+## User Stories
+- As a user, I want to be able to add a movie to my watchlist
+- As a user, I want to be able to view the movies in my watchlist
+- As a user, I want to be able to add a movie to my 'watched' list
+- As a user, I want to be able to mark a movie as watched and move 
+it to my 'watched' list, add a rating and a review

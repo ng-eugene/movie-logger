@@ -1,53 +1,44 @@
 package model;
 
+import model.exceptions.InvalidRatingException;
+
 import java.time.LocalDate;
 
+// Represents a movie with a name, possibly a rating, review, and log date
 public class Movie {
 
-    private String name;
-    private Boolean watched;
+    private final String name;
     private LocalDate dateWatched;
-    private int rating;
+    private double rating;
     private String review;
     private Boolean rewatchable;
 
     public Movie(String name) {
         this.name = name;
-        this.watched = false;
     }
 
-    public Movie(String name, int rating, String review, Boolean rewatchable) {
-        this.name = name;
-        this.watched = true;
+    // MODIFIES: this
+    // EFFECTS: adds rating, review, and whether you would rewatch
+    public void logMovie(double rating, String review, Boolean rewatchable) throws InvalidRatingException {
+        if (rating > 10 || rating < 0) {
+            throw new InvalidRatingException();
+        }
+
         this.dateWatched = LocalDate.now();
         this.rating = rating;
         this.review = review;
         this.rewatchable = rewatchable;
-    }
-
-    public void logMovie(int rating, String review, Boolean rewatchable) {
-
-        this.watched = true;
-        this.dateWatched = LocalDate.now();
-        this.rating = rating;
-        this.review = review;
-        this.rewatchable = rewatchable;
-
     }
 
     public String getName() {
         return name;
     }
 
-    public Boolean isWatched() {
-        return watched;
-    }
-
     public LocalDate dateWatched() {
         return dateWatched;
     }
 
-    public int getRating() {
+    public double getRating() {
         return rating;
     }
 

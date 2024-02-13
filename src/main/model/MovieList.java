@@ -12,6 +12,11 @@ public class MovieList {
         movieList = new ArrayList<>();
     }
 
+    // EFFECTS: returns movie at given index
+    public Movie getMovie(int index) {
+        return movieList.get(index);
+    }
+
     // MODIFIES: this
     // EFFECTS: adds movie to list
     public void addMovie(Movie movie) {
@@ -24,13 +29,8 @@ public class MovieList {
         movieList.remove(movie);
     }
 
-    // EFFECTS: returns movie at given index
-    public Movie getMovie(int index) {
-        return movieList.get(index);
-    }
-
     // EFFECTS: returns number of movies in list
-    public int numMovies() {
+    public int getNumMovies() {
         return movieList.size();
     }
 

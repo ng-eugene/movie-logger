@@ -94,7 +94,7 @@ public class MovieLogger {
         String i = input.next().toLowerCase();
 
         if (i.equals("a")) {
-            if (watchlist.numMovies() == 0) {
+            if (watchlist.getNumMovies() == 0) {
                 System.out.println("Watchlist is empty");
                 return;
             }
@@ -135,7 +135,7 @@ public class MovieLogger {
         System.out.println(list.listMovies());
         int index = input.nextInt() - 1;
 
-        while (list.numMovies() <= index) {
+        while (list.getNumMovies() <= index) {
             System.out.println("Invalid input. Try again");
             index = input.nextInt() - 1;
         }

@@ -12,24 +12,26 @@ public class MovieLogger {
     private MovieLog movieLog;
     private MovieList watchlist;
 
+    // EFFECTS: begins movie logging app
     public MovieLogger() {
         runMovieLogger();
     }
 
+    // MODIFIES: this
     // EFFECTS: reads user input
     private void runMovieLogger() {
-        String command;
+        String select;
         init();
 
         while (true) {
             showMenu();
-            command = input.next().toLowerCase();
+            select = input.next().toLowerCase();
 
-            if (command.equals("q")) {
+            if (select.equals("q")) {
                 break;
             }
 
-            doCommand(command);
+            doCommand(select);
         }
 
         System.out.println("end");
@@ -38,20 +40,20 @@ public class MovieLogger {
 
     // MODIFIES: this
     // EFFECTS: processes user actions
-    private void doCommand(String input) {
-        if (input.equals("a")) {
+    private void doCommand(String select) {
+        if (select.equals("a")) {
             System.out.println("\nMy watchlist:");
             System.out.println(watchlist.listMovies());
-        } else if (input.equals("b")) {
+        } else if (select.equals("b")) {
             watchlistAdd();
-        } else if (input.equals("c")) {
+        } else if (select.equals("c")) {
             listRemove(watchlist);
-        } else if (input.equals("d")) {
+        } else if (select.equals("d")) {
             System.out.println("\nMy movie log:");
             System.out.println(movieLog.outputLog());
-        } else if (input.equals("e")) {
+        } else if (select.equals("e")) {
             logMenu();
-        } else if (input.equals("f")) {
+        } else if (select.equals("f")) {
             listRemove(movieLog);
         } else {
             System.out.println("Invalid input");
@@ -78,7 +80,7 @@ public class MovieLogger {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds a named movie to watchlist
+    // EFFECTS: adds a new movie with input name to watchlist
     private void watchlistAdd() {
         System.out.println("\nEnter title of movie: ");
         String name = input.next();
@@ -91,9 +93,9 @@ public class MovieLogger {
         System.out.println("\na) Log from watchlist");
         System.out.println("b) Log new movie");
 
-        String i = input.next().toLowerCase();
+        String select = input.next().toLowerCase();
 
-        if (i.equals("a")) {
+        if (select.equals("a")) {
             if (watchlist.getNumMovies() == 0) {
                 System.out.println("Watchlist is empty");
                 return;
@@ -101,7 +103,7 @@ public class MovieLogger {
             Movie movie = chooseMovie(watchlist);
             watchlist.removeMovie(movie);
             logMovie(movie);
-        } else if (i.equals("b")) {
+        } else if (select.equals("b")) {
             System.out.println("Input movie name: ");
             String name = input.next();
             logMovie(new Movie(name));

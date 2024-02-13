@@ -8,6 +8,7 @@ public class MovieList {
 
     protected List<Movie> movieList;
 
+    // EFFECTS: creates new empty list of movies
     public MovieList() {
         movieList = new ArrayList<>();
     }
@@ -34,7 +35,7 @@ public class MovieList {
         return movieList.size();
     }
 
-    // EFFECTS: returns all movies in list
+    // EFFECTS: returns text output of all movies in list
     public String listMovies() {
         StringBuilder output = new StringBuilder();
 

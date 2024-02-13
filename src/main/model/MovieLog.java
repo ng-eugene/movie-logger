@@ -3,11 +3,13 @@ package model;
 // Represents a log of watched movies
 public class MovieLog extends MovieList {
 
+    // EFFECTS: creates new empty list of movies
     public MovieLog() {
         super();
     }
 
-    // EFFECTS: returns all movies in list along with rating, review, date watched, and whether you would rewatch
+    // EFFECTS: returns text output of all movies in list along with
+    // rating, review, date watched, and whether you would rewatch
     public String outputLog() {
         StringBuilder output = new StringBuilder();
 

@@ -13,6 +13,7 @@ public class Movie {
     private String review;
     private Boolean rewatchable;
 
+    // EFFECTS: creates new movie with given name
     public Movie(String name) {
         this.name = name;
     }

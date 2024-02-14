@@ -3,6 +3,7 @@ package ui;
 import model.*;
 import model.exceptions.InvalidRatingException;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // Movie logging application
@@ -31,7 +32,11 @@ public class MovieLogger {
                 break;
             }
 
-            doCommand(select);
+            try {
+                doCommand(select);
+            } catch (InputMismatchException | IndexOutOfBoundsException e) {
+                System.out.println("Invalid input.");
+            }
         }
 
         System.out.println("end");
@@ -56,7 +61,7 @@ public class MovieLogger {
         } else if (select.equals("f")) {
             listRemove(movieLog);
         } else {
-            System.out.println("Invalid input");
+            throw new InputMismatchException();
         }
     }
 
@@ -101,14 +106,13 @@ public class MovieLogger {
                 return;
             }
             Movie movie = chooseMovie(watchlist);
-            watchlist.removeMovie(movie);
             logMovie(movie);
         } else if (select.equals("b")) {
             System.out.println("Input movie name: ");
             String name = input.next();
             logMovie(new Movie(name));
         } else {
-            System.out.println("Invalid input");
+            throw new InputMismatchException();
         }
 
     }
@@ -126,6 +130,7 @@ public class MovieLogger {
         try {
             movie.logMovie(rating, review, rewatch);
             movieLog.addMovie(movie);
+            watchlist.removeMovie(movie);
         } catch (InvalidRatingException e) {
             System.out.println("Invalid rating, must be between 0 and 10");
         }
@@ -136,12 +141,6 @@ public class MovieLogger {
         System.out.println("\nPick movie: ");
         System.out.println(list.listMovies());
         int index = input.nextInt() - 1;
-
-        while (list.getNumMovies() <= index) {
-            System.out.println("Invalid input. Try again");
-            index = input.nextInt() - 1;
-        }
-
         return list.getMovie(index);
     }
 

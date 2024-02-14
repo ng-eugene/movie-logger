@@ -25,7 +25,7 @@ public class MovieLogTest {
             movie3.logMovie(9.5, "Warm", true);
             movie4.logMovie(6, "The Path", false);
         } catch (InvalidRatingException e) {
-            fail();
+            fail("Unexpected InvalidRatingException");
         }
         now = LocalDate.now().toString();
     }

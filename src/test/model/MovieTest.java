@@ -23,7 +23,7 @@ public class MovieTest {
         try {
             movie1.logMovie(9.5, "Intrasolar", true);
         } catch (InvalidRatingException e) {
-            fail();
+            fail("Unexpected InvalidRatingException");
         }
         assertEquals(9.5, movie1.getRating());
         assertEquals("Intrasolar", movie1.getReview());
@@ -35,20 +35,24 @@ public class MovieTest {
     public void logMovieInvalidHighTest() {
         try {
             movie2.logMovie(10.5, "O captain My captain", true);
-            fail();
+            fail("InvalidRatingException was not thrown");
         } catch (InvalidRatingException e) {
-
+            // pass
         }
+
+        assertEquals(0, movie2.getRating());
     }
 
     @Test
     public void logMovieInvalidLowTest() {
         try {
             movie2.logMovie(-1, "O captain My captain", true);
-            fail();
+            fail("InvalidRatingException was not thrown");
         } catch (InvalidRatingException e) {
-
+            // pass
         }
+
+        assertEquals(0, movie2.getRating());
     }
 
 }

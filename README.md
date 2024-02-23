@@ -21,3 +21,9 @@ thoughts on them as they are fresh.
 - As a user, I want to be able to add a movie to my 'watched' list
 - As a user, I want to be able to mark a movie as watched and move 
 it to my 'watched' list, add a rating and a review
+- As a user, I want to be able to save my movie lists if I choose
+- As a user, I want to be able to load my movie lists from file if I choose
+
+References:
+- https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+- https://github.students.cs.ubc.ca/CPSC210/TellerApp

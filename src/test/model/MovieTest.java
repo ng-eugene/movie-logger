@@ -1,6 +1,7 @@
 package model;
 
 import model.exceptions.InvalidRatingException;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,13 +22,14 @@ public class MovieTest {
     @Test
     public void logMovieValidTest() {
         try {
-            movie1.logMovie(9.5, "Intrasolar", true);
+            movie1.logMovie(9.5, "Humour Setting: 75%", true);
         } catch (InvalidRatingException e) {
             fail("Unexpected InvalidRatingException");
         }
+
         assertEquals(9.5, movie1.getRating());
-        assertEquals("Intrasolar", movie1.getReview());
-        assertEquals(LocalDate.now(), movie1.dateWatched());
+        assertEquals("Humour Setting: 75%", movie1.getReview());
+        assertEquals(LocalDate.now().toString(), movie1.dateWatched());
         assertTrue(movie1.isRewatchable());
     }
 
@@ -53,6 +55,30 @@ public class MovieTest {
         }
 
         assertEquals(0, movie2.getRating());
+    }
+
+    @Test
+    public void toJsonTest() {
+        JSONObject js = movie1.toJson();
+
+        assertEquals("Interstellar", js.get("name"));
+    }
+
+    @Test
+    public void toJsonLoggedTest() {
+        try {
+            movie1.logMovie(9.5, "Humour Setting: 75%", true);
+        } catch (InvalidRatingException e) {
+            fail("Unexpected InvalidRatingException");
+        }
+
+        JSONObject js = movie1.toJson();
+
+        assertEquals("Interstellar", js.get("name"));
+        assertEquals(LocalDate.now().toString(), js.get("date"));
+        assertEquals(9.5, js.get("rating"));
+        assertEquals("Humour Setting: 75%", js.get("review"));
+        assertEquals(true, js.get("rewatch"));
     }
 
 }

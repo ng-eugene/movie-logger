@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,6 +54,17 @@ public class MovieListTest {
         movieList.addMovie(movie2);
 
         assertEquals("1) Interstellar\n2) Heat\n", movieList.listMovies());
+    }
+
+    @Test
+    public void toJsonTest() {
+        movieList.addMovie(movie1);
+        movieList.addMovie(movie2);
+
+        JSONArray js = movieList.toJson();
+
+        assertEquals("Interstellar", js.getJSONObject(0).get("name"));
+        assertEquals("Heat", js.getJSONObject(1).get("name"));
     }
 
 }

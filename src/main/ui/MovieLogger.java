@@ -2,16 +2,23 @@ package ui;
 
 import model.*;
 import model.exceptions.InvalidRatingException;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // Movie logging application
 public class MovieLogger {
 
+    private static final String JSON_STORE = "./data/lists.json";
     private Scanner input;
     private MovieLog movieLog;
     private MovieList watchlist;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: begins movie logging app
     public MovieLogger() {
@@ -26,7 +33,7 @@ public class MovieLogger {
 
         while (true) {
             showMenu();
-            select = input.next().toLowerCase();
+            select = input.nextLine().toLowerCase();
 
             if (select.equals("q")) {
                 break;
@@ -60,6 +67,10 @@ public class MovieLogger {
             logMenu();
         } else if (select.equals("f")) {
             listRemove(movieLog);
+        } else if (select.equals("g")) {
+            saveLists();
+        } else if (select.equals("h")) {
+            loadLists();
         } else {
             throw new InputMismatchException();
         }
@@ -74,6 +85,8 @@ public class MovieLogger {
         System.out.println("\td) View log");
         System.out.println("\te) Add to log");
         System.out.println("\tf) Remove from log");
+        System.out.println("\tg) Save lists");
+        System.out.println("\th) Load lists");
         System.out.println("\n\tq) quit");
     }
 
@@ -88,7 +101,7 @@ public class MovieLogger {
     // EFFECTS: adds a new movie with input name to watchlist
     private void watchlistAdd() {
         System.out.println("\nEnter title of movie: ");
-        String name = input.next();
+        String name = input.nextLine();
         watchlist.addMovie(new Movie(name));
     }
 
@@ -98,7 +111,7 @@ public class MovieLogger {
         System.out.println("\na) Log from watchlist");
         System.out.println("b) Log new movie");
 
-        String select = input.next().toLowerCase();
+        String select = input.nextLine().toLowerCase();
 
         if (select.equals("a")) {
             if (watchlist.getNumMovies() == 0) {
@@ -109,7 +122,7 @@ public class MovieLogger {
             logMovie(movie);
         } else if (select.equals("b")) {
             System.out.println("Input movie name: ");
-            String name = input.next();
+            String name = input.nextLine();
             logMovie(new Movie(name));
         } else {
             throw new InputMismatchException();
@@ -121,11 +134,11 @@ public class MovieLogger {
     // EFFECTS: logs movie with rating, review, rewatchability
     private void logMovie(Movie movie) {
         System.out.println("Input rating out of 10: ");
-        double rating = input.nextDouble();
+        double rating = Double.parseDouble(input.nextLine());
         System.out.println("Input review: ");
-        String review = input.next();
+        String review = input.nextLine();
         System.out.println("Would you rewatch? (true/false)");
-        Boolean rewatch = input.nextBoolean();
+        Boolean rewatch = Boolean.parseBoolean(input.nextLine());
 
         try {
             movie.logMovie(rating, review, rewatch);
@@ -140,8 +153,35 @@ public class MovieLogger {
     private Movie chooseMovie(MovieList list) {
         System.out.println("\nPick movie: ");
         System.out.println(list.listMovies());
-        int index = input.nextInt() - 1;
+        int index = Integer.parseInt(input.nextLine()) - 1;
         return list.getMovie(index);
+    }
+
+    // EFFECTS: saves lists to file
+    private void saveLists() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(watchlist, movieLog);
+            jsonWriter.close();
+            System.out.println("Saved lists to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads lists from file
+    private void loadLists() {
+        try {
+            MovieList watchlist = new MovieList();
+            MovieLog movieLog = new MovieLog();
+            jsonReader.read(watchlist, movieLog);
+            this.watchlist = watchlist;
+            this.movieLog = movieLog;
+            System.out.println("Loaded lists from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from " + JSON_STORE);
+        }
     }
 
     // MODIFIES: this
@@ -151,6 +191,8 @@ public class MovieLogger {
         watchlist = new MovieList();
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
     }
 
 }

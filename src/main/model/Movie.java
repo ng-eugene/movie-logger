@@ -1,6 +1,7 @@
 package model;
 
 import model.exceptions.InvalidRatingException;
+import org.json.JSONObject;
 
 import java.time.LocalDate;
 
@@ -8,7 +9,7 @@ import java.time.LocalDate;
 public class Movie {
 
     private final String name;
-    private LocalDate dateWatched;
+    private String dateWatched;
     private double rating;
     private String review;
     private Boolean rewatchable;
@@ -25,17 +26,39 @@ public class Movie {
             throw new InvalidRatingException();
         }
 
-        this.dateWatched = LocalDate.now();
+        this.dateWatched = LocalDate.now().toString();
         this.rating = rating;
         this.review = review;
         this.rewatchable = rewatchable;
+    }
+
+    public void logMovie(String date, double rating, String review, Boolean rewatchable) {
+        this.dateWatched = date;
+        this.rating = rating;
+        this.review = review;
+        this.rewatchable = rewatchable;
+    }
+
+    public JSONObject toJson() {
+        JSONObject js = new JSONObject();
+
+        js.put("name", this.name);
+
+        if (dateWatched != null) {
+            js.put("date", this.dateWatched);
+            js.put("rating", this.rating);
+            js.put("review", this.review);
+            js.put("rewatch", this.rewatchable);
+        }
+
+        return js;
     }
 
     public String getName() {
         return name;
     }
 
-    public LocalDate dateWatched() {
+    public String dateWatched() {
         return dateWatched;
     }
 
@@ -50,7 +73,5 @@ public class Movie {
     public Boolean isRewatchable() {
         return rewatchable;
     }
-
-
 
 }

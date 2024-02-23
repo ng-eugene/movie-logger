@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,9 +15,26 @@ public class MovieList {
         movieList = new ArrayList<>();
     }
 
-    // EFFECTS: returns movie at given index
-    public Movie getMovie(int index) {
-        return movieList.get(index);
+    // EFFECTS: returns text output of all movies in list
+    public String listMovies() {
+        StringBuilder output = new StringBuilder();
+
+        for (Movie movie : movieList) {
+            output.append(movieList.indexOf(movie) + 1).append(") ")
+                    .append(movie.getName()).append("\n");
+        }
+
+        return output.toString();
+    }
+
+    public JSONArray toJson() {
+        JSONArray list = new JSONArray();
+
+        for (Movie m : movieList) {
+            list.put(m.toJson());
+        }
+
+        return list;
     }
 
     // MODIFIES: this
@@ -30,21 +49,14 @@ public class MovieList {
         movieList.remove(movie);
     }
 
+    // EFFECTS: returns movie at given index
+    public Movie getMovie(int index) {
+        return movieList.get(index);
+    }
+
     // EFFECTS: returns number of movies in list
     public int getNumMovies() {
         return movieList.size();
-    }
-
-    // EFFECTS: returns text output of all movies in list
-    public String listMovies() {
-        StringBuilder output = new StringBuilder();
-
-        for (Movie movie : movieList) {
-            output.append(movieList.indexOf(movie) + 1).append(") ")
-                    .append(movie.getName()).append("\n");
-        }
-
-        return output.toString();
     }
 
 }

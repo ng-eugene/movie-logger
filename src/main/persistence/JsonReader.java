@@ -25,7 +25,6 @@ public class JsonReader {
     // EFFECTS: reads lists from file, writes to given lists
     // throws IOException in case of error reading file
     public void read(MovieList watchlist, MovieLog log) throws IOException {
-        assert (watchlist.getNumMovies() == 0 && log.getNumMovies() == 0);
         String data = readFile(source);
         JSONObject js = new JSONObject(data);
         addMovies(watchlist, js.getJSONArray("watchlist"));

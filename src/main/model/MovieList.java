@@ -27,6 +27,7 @@ public class MovieList {
         return output.toString();
     }
 
+    // EFFECTS: returns list of movies as JSON array of movies
     public JSONArray toJson() {
         JSONArray list = new JSONArray();
 

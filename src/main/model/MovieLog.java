@@ -17,8 +17,8 @@ public class MovieLog extends MovieList {
             output.append(movie.getName()).append("\n");
             output.append("Rating: ").append(movie.getRating()).append("/10").append("\n");
             output.append("Review: ").append(movie.getReview()).append("\n");
-            output.append("Date watched: ").append(movie.dateWatched()).append("\n");
-            output.append("Would rewatch? ").append(movie.isRewatchable() ? "yes" : "no").append("\n\n");
+            output.append("Date watched: ").append(movie.getDate()).append("\n");
+            output.append("Would rewatch? ").append(movie.getRewatch() ? "yes" : "no").append("\n\n");
         }
 
         return output.toString();

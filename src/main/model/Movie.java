@@ -5,14 +5,14 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 
-// Represents a movie with a name, possibly a rating, review, and log date
+// Represents a movie with a name, possibly a rating, review, rewatchability, and log date
 public class Movie {
 
     private final String name;
     private String dateWatched;
     private double rating;
     private String review;
-    private Boolean rewatchable;
+    private Boolean rewatch;
 
     // EFFECTS: creates new movie with given name
     public Movie(String name) {
@@ -21,7 +21,8 @@ public class Movie {
 
     // MODIFIES: this
     // EFFECTS: adds rating, review, and whether you would rewatch
-    public void logMovie(double rating, String review, Boolean rewatchable) throws InvalidRatingException {
+    // throws InvalidRatingException in case of rating out of bounds
+    public void logMovie(double rating, String review, Boolean rewatch) throws InvalidRatingException {
         if (rating > 10 || rating < 0) {
             throw new InvalidRatingException();
         }
@@ -29,16 +30,19 @@ public class Movie {
         this.dateWatched = LocalDate.now().toString();
         this.rating = rating;
         this.review = review;
-        this.rewatchable = rewatchable;
+        this.rewatch = rewatch;
     }
 
-    public void logMovie(String date, double rating, String review, Boolean rewatchable) {
+    // MODIFIES: this
+    // EFFECTS: adds date watched, rating, review, and whether you would rewatch
+    public void logMovie(String date, double rating, String review, Boolean rewatch) {
         this.dateWatched = date;
         this.rating = rating;
         this.review = review;
-        this.rewatchable = rewatchable;
+        this.rewatch = rewatch;
     }
 
+    // EFFECTS: returns movie in JSON format
     public JSONObject toJson() {
         JSONObject js = new JSONObject();
 
@@ -48,7 +52,7 @@ public class Movie {
             js.put("date", this.dateWatched);
             js.put("rating", this.rating);
             js.put("review", this.review);
-            js.put("rewatch", this.rewatchable);
+            js.put("rewatch", this.rewatch);
         }
 
         return js;
@@ -58,7 +62,7 @@ public class Movie {
         return name;
     }
 
-    public String dateWatched() {
+    public String getDate() {
         return dateWatched;
     }
 
@@ -70,8 +74,8 @@ public class Movie {
         return review;
     }
 
-    public Boolean isRewatchable() {
-        return rewatchable;
+    public Boolean getRewatch() {
+        return rewatch;
     }
 
 }

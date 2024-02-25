@@ -29,8 +29,8 @@ public class MovieTest {
 
         assertEquals(9.5, movie1.getRating());
         assertEquals("Humour Setting: 75%", movie1.getReview());
-        assertEquals(LocalDate.now().toString(), movie1.dateWatched());
-        assertTrue(movie1.isRewatchable());
+        assertEquals(LocalDate.now().toString(), movie1.getDate());
+        assertTrue(movie1.getRewatch());
     }
 
     @Test

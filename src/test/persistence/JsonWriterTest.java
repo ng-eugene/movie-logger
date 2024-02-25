@@ -64,10 +64,10 @@ public class JsonWriterTest {
             assertEquals(2, testList.getNumMovies());
             assertEquals("Interstellar", testList.getMovie(0).getName());
             assertEquals("The Road", testLog.getMovie(1).getName());
-            assertEquals(LocalDate.now().toString(), testLog.getMovie(0).dateWatched());
+            assertEquals(LocalDate.now().toString(), testLog.getMovie(0).getDate());
             assertEquals(6, testLog.getMovie(1).getRating());
             assertEquals("Walk", testLog.getMovie(1).getReview());
-            assertFalse(testLog.getMovie(1).isRewatchable());
+            assertFalse(testLog.getMovie(1).getRewatch());
 
         } catch (IOException e) {
             fail("Unexpected IOException");

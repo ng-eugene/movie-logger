@@ -31,9 +31,9 @@ public class JsonReaderTest {
             assertEquals("The Departed", list.getMovie(0).getName());
             assertEquals("Good Will Hunting", log.getMovie(0).getName());
             assertEquals("William", log.getMovie(0).getReview());
-            assertEquals("2024-01-15", log.getMovie(0).dateWatched());
+            assertEquals("2024-01-15", log.getMovie(0).getDate());
             assertEquals(9.235, log.getMovie(0).getRating());
-            assertTrue(log.getMovie(0).isRewatchable());
+            assertTrue(log.getMovie(0).getRewatch());
         } catch (IOException e) {
             fail("Unexpected IOException");
         }

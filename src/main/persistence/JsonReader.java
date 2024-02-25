@@ -32,6 +32,7 @@ public class JsonReader {
     }
 
     // EFFECTS: reads source as string and returns it
+    // throws IOException in case of error reading file
     private String readFile(String source) throws IOException {
         StringBuilder str = new StringBuilder();
 

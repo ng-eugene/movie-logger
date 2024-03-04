@@ -46,13 +46,13 @@ public class Movie {
     public JSONObject toJson() {
         JSONObject js = new JSONObject();
 
-        js.put("name", this.name);
+        js.put("name", getName());
 
         if (dateWatched != null) {
-            js.put("date", this.dateWatched);
-            js.put("rating", this.rating);
-            js.put("review", this.review);
-            js.put("rewatch", this.rewatch);
+            js.put("date", getDate());
+            js.put("rating", getRating());
+            js.put("review", getReview());
+            js.put("rewatch", getRewatch());
         }
 
         return js;

@@ -8,6 +8,7 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.util.Scanner;
 
 // Movie logging application
@@ -54,22 +55,22 @@ public class MovieLogger {
     // EFFECTS: processes user actions
     private void doCommand(String select) {
         if (select.equals("a")) {
-            System.out.println("\nMy watchlist:");
-            System.out.println(watchlist.listMovies());
+            showList();
         } else if (select.equals("b")) {
-            watchlistAdd();
+            randMovie();
         } else if (select.equals("c")) {
-            listRemove(watchlist);
+            watchlistAdd();
         } else if (select.equals("d")) {
-            System.out.println("\nMy movie log:");
-            System.out.println(movieLog.outputLog());
+            listRemove(watchlist);
         } else if (select.equals("e")) {
-            logMenu();
+            showLog();
         } else if (select.equals("f")) {
-            listRemove(movieLog);
+            logMenu();
         } else if (select.equals("g")) {
-            saveLists();
+            listRemove(movieLog);
         } else if (select.equals("h")) {
+            saveLists();
+        } else if (select.equals("i")) {
             loadLists();
         } else {
             throw new InputMismatchException();
@@ -80,14 +81,40 @@ public class MovieLogger {
     private void showMenu() {
         System.out.println("\nSelect action");
         System.out.println("\ta) View watchlist");
-        System.out.println("\tb) Add to watchlist");
-        System.out.println("\tc) Remove from watchlist");
-        System.out.println("\td) View log");
-        System.out.println("\te) Add to log");
-        System.out.println("\tf) Remove from log");
-        System.out.println("\tg) Save lists");
-        System.out.println("\th) Load lists");
+        System.out.println("\tb) Random movie");
+        System.out.println("\tc) Add to watchlist");
+        System.out.println("\td) Remove from watchlist");
+        System.out.println("\te) View log");
+        System.out.println("\tf) Add to log");
+        System.out.println("\tg) Remove from log");
+        System.out.println("\th) Save lists");
+        System.out.println("\ti) Load lists");
         System.out.println("\n\tq) quit");
+    }
+
+    // EFFECTS: lists movies on watchlist
+    private void showList() {
+        System.out.println("\nMy watchlist:");
+        System.out.println(watchlist.listMovies());
+    }
+
+    // EFFECTS: lists movies on log
+    private void showLog() {
+        System.out.println("\nMy movie log:");
+        System.out.println(movieLog.outputLog());
+    }
+
+    // EFFECTS: prints out a random movie name from watchlist
+    private void randMovie() {
+        if (watchlist.getNumMovies() == 0) {
+            System.out.println("No movies in watchlist");
+            return;
+        }
+
+        Random rand = new Random();
+        Movie movie = watchlist.getMovie(rand.nextInt(watchlist.getNumMovies()));
+
+        System.out.println("What about: " + movie.getName());
     }
 
     // MODIFIES: this

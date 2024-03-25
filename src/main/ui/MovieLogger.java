@@ -5,6 +5,10 @@ import model.exceptions.InvalidRatingException;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.InputMismatchException;
@@ -12,7 +16,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 // Movie logging application
-public class MovieLogger {
+public class MovieLogger extends JFrame implements ActionListener {
 
     private static final String JSON_STORE = "./data/lists.json";
     private Scanner input;
@@ -20,6 +24,8 @@ public class MovieLogger {
     private MovieList watchlist;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
+    public static final int WIDTH = 600;
+    public static final int HEIGHT = 600;
 
     // EFFECTS: begins movie logging app
     public MovieLogger() {
@@ -32,65 +38,65 @@ public class MovieLogger {
         String select;
         init();
 
-        while (true) {
-            showMenu();
-            select = input.nextLine().toLowerCase();
-
-            if (select.equals("q")) {
-                break;
-            }
-
-            try {
-                doCommand(select);
-            } catch (InputMismatchException | IndexOutOfBoundsException e) {
-                System.out.println("Invalid input.");
-            }
-        }
-
-        System.out.println("end");
+//        while (true) {
+//            showMenu();
+//            select = input.nextLine().toLowerCase();
+//
+//            if (select.equals("q")) {
+//                break;
+//            }
+//
+//            try {
+//                doCommand(select);
+//            } catch (InputMismatchException | IndexOutOfBoundsException e) {
+//                System.out.println("Invalid input.");
+//            }
+//        }
+//
+//        System.out.println("end");
 
     }
 
-    // MODIFIES: this
-    // EFFECTS: processes user actions
-    private void doCommand(String select) {
-        if (select.equals("a")) {
-            showList();
-        } else if (select.equals("b")) {
-            randMovie();
-        } else if (select.equals("c")) {
-            watchlistAdd();
-        } else if (select.equals("d")) {
-            listRemove(watchlist);
-        } else if (select.equals("e")) {
-            showLog();
-        } else if (select.equals("f")) {
-            logMenu();
-        } else if (select.equals("g")) {
-            listRemove(movieLog);
-        } else if (select.equals("h")) {
-            saveLists();
-        } else if (select.equals("i")) {
-            loadLists();
-        } else {
-            throw new InputMismatchException();
-        }
-    }
+//    // MODIFIES: this
+//    // EFFECTS: processes user actions
+//    private void doCommand(String select) {
+//        if (select.equals("a")) {
+//            showList();
+//        } else if (select.equals("b")) {
+//            randMovie();
+//        } else if (select.equals("c")) {
+//            watchlistAdd();
+//        } else if (select.equals("d")) {
+//            listRemove(watchlist);
+//        } else if (select.equals("e")) {
+//            showLog();
+//        } else if (select.equals("f")) {
+//            logMenu();
+//        } else if (select.equals("g")) {
+//            listRemove(movieLog);
+//        } else if (select.equals("h")) {
+//            saveLists();
+//        } else if (select.equals("i")) {
+//            loadLists();
+//        } else {
+//            throw new InputMismatchException();
+//        }
+//    }
 
-    // EFFECTS: shows user options
-    private void showMenu() {
-        System.out.println("\nSelect action");
-        System.out.println("\ta) View watchlist");
-        System.out.println("\tb) Random movie");
-        System.out.println("\tc) Add to watchlist");
-        System.out.println("\td) Remove from watchlist");
-        System.out.println("\te) View log");
-        System.out.println("\tf) Add to log");
-        System.out.println("\tg) Remove from log");
-        System.out.println("\th) Save lists");
-        System.out.println("\ti) Load lists");
-        System.out.println("\n\tq) quit");
-    }
+//    // EFFECTS: shows user options
+//    private void showMenu() {
+//        System.out.println("\nSelect action");
+//        System.out.println("\ta) View watchlist");
+//        System.out.println("\tb) Random movie");
+//        System.out.println("\tc) Add to watchlist");
+//        System.out.println("\td) Remove from watchlist");
+//        System.out.println("\te) View log");
+//        System.out.println("\tf) Add to log");
+//        System.out.println("\tg) Remove from log");
+//        System.out.println("\th) Save lists");
+//        System.out.println("\ti) Load lists");
+//        System.out.println("\n\tq) quit");
+//    }
 
     // EFFECTS: lists movies on watchlist
     private void showList() {
@@ -212,7 +218,7 @@ public class MovieLogger {
     }
 
     // MODIFIES: this
-    // EFFECTS: initialises lists
+    // EFFECTS: initialises lists, scanners, read/writers, graphics
     private void init() {
         movieLog = new MovieLog();
         watchlist = new MovieList();
@@ -220,6 +226,27 @@ public class MovieLogger {
         input.useDelimiter("\n");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+        initGraphics();
     }
 
+    // EFFECTS: creates GUI and displays
+    private void initGraphics() {
+        SelectionMenu menu = new SelectionMenu(this);
+        setJMenuBar(menu.createMenuBar());
+        setContentPane(menu.createContentPane());
+
+        setLayout(new BorderLayout());
+        setMinimumSize(new Dimension(WIDTH, HEIGHT));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() instanceof JMenuItem) {
+            JMenuItem source = (JMenuItem) (e.getSource());
+            String s = source.getText();
+            System.out.println(s);
+        }
+    }
 }

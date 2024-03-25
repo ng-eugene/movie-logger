@@ -27,3 +27,4 @@ it to my 'watched' list, add a rating and a review
 References:
 - https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 - https://github.students.cs.ubc.ca/CPSC210/TellerApp
+- https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html

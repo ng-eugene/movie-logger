@@ -1,14 +1,16 @@
-package ui;
+package ui.panels;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-public class SelectionMenu {
+public class StartMenu {
 
     private ActionListener listener;
 
-    public SelectionMenu(ActionListener listener) {
+    // MODIFIES: this
+    // EFFECTS: creates menu with listener
+    public StartMenu(ActionListener listener) {
         this.listener = listener;
     }
 

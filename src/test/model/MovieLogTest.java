@@ -45,6 +45,14 @@ public class MovieLogTest {
     }
 
     @Test
+    public void outputMovieTest() {
+        movieLog.addMovie(movie3);
+
+        assertEquals("Heat\nRating: 9.5/10\nReview: Warm\nDate watched: " +
+                now + "\nWould rewatch? yes\n\n", movieLog.outputLog());
+    }
+
+    @Test
     public void toJsonTest() {
         movieLog.addMovie(movie3);
         movieLog.addMovie(movie4);

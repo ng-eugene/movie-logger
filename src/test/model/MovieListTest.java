@@ -53,7 +53,9 @@ public class MovieListTest {
         movieList.addMovie(movie1);
         movieList.addMovie(movie2);
 
-        assertEquals("1) Interstellar\n2) Heat\n", movieList.listMovies());
+        String[] arr = movieList.listMovies();
+        assertEquals("Interstellar", arr[0]);
+        assertEquals("Heat", arr[1]);
     }
 
     @Test

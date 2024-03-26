@@ -15,16 +15,25 @@ public class MovieList {
         movieList = new ArrayList<>();
     }
 
-    // EFFECTS: returns text output of all movies in list
-    public String listMovies() {
-        StringBuilder output = new StringBuilder();
+//    // EFFECTS: returns text output of all movies in list
+//    public String listMovies() {
+//        StringBuilder output = new StringBuilder();
+//
+//        for (Movie movie : movieList) {
+//            output.append(movieList.indexOf(movie) + 1).append(") ")
+//                    .append(movie.getName()).append("\n");
+//        }
+//
+//        return output.toString();
+//    }
 
-        for (Movie movie : movieList) {
-            output.append(movieList.indexOf(movie) + 1).append(") ")
-                    .append(movie.getName()).append("\n");
+    // EFFECTS: returns array of all movie names in list
+    public String[] listMovies() {
+        String[] arr = new String[movieList.size()];
+        for (int i = 0; i < movieList.size(); i++) {
+            arr[i] = movieList.get(i).getName();
         }
-
-        return output.toString();
+        return arr;
     }
 
     // EFFECTS: returns list of movies as JSON array of movies
@@ -53,6 +62,16 @@ public class MovieList {
     // EFFECTS: returns movie at given index
     public Movie getMovie(int index) {
         return movieList.get(index);
+    }
+
+    // EFFECTS: returns movie with given name
+    public Movie getMovie(String name) {
+        for (Movie m : movieList) {
+            if (m.getName().equals(name)) {
+                return m;
+            }
+        }
+        return null;
     }
 
     // EFFECTS: returns number of movies in list

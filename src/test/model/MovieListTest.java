@@ -26,6 +26,18 @@ public class MovieListTest {
     }
 
     @Test
+    public void getMovieNameTest() {
+        movieList.addMovie(movie1);
+        assertEquals(movie1, movieList.getMovie("Interstellar"));
+    }
+
+    @Test
+    public void getMovieNameNoneTest() {
+        movieList.addMovie(movie1);
+        assertEquals(null, movieList.getMovie("Heat"));
+    }
+
+    @Test
     public void addMovieTest() {
         movieList.addMovie(movie1);
         assertEquals(1, movieList.getNumMovies());

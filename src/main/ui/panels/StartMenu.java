@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+// Initial start point for UI
 public class StartMenu {
 
     private ActionListener listener;
@@ -14,6 +15,8 @@ public class StartMenu {
         this.listener = listener;
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates menu tabs and fills with menu items
     public JMenuBar createMenuBar() {
         JMenuBar menuBar;
         JMenu menu;
@@ -35,6 +38,8 @@ public class StartMenu {
         return menuBar;
     }
 
+    // MODIFIES: this
+    // EFFECTS: fills out watchlist menu dropdown
     private void buildWatchlistMenu(JMenu menu) {
         JMenuItem menuItem;
         menuItem = new JMenuItem("View watchlist");
@@ -54,6 +59,8 @@ public class StartMenu {
         menu.add(menuItem);
     }
 
+    // MODIFIES: this
+    // EFFECTS: fills out log menu dropdown
     private void buildLogMenu(JMenu menu) {
         JMenuItem menuItem;
         menuItem = new JMenuItem("View movie log");
@@ -69,6 +76,8 @@ public class StartMenu {
         menu.add(menuItem);
     }
 
+    // MODIFIES: this
+    // EFFECTS: fills out save/load menu dropdown
     private void buildSaveLoadMenu(JMenu menu) {
         JMenuItem menuItem;
         menuItem = new JMenuItem("Save to file");
@@ -80,6 +89,7 @@ public class StartMenu {
         menu.add(menuItem);
     }
 
+    // EFFECTS: creates content pane for menu and returns it
     public Container createContentPane() {
         JPanel contentPane = new JPanel(new BorderLayout());
         contentPane.setOpaque(true);

@@ -8,6 +8,7 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.util.Random;
 
+// View for movies in a list
 public class ListView implements ListSelectionListener {
 
     protected JLabel picture;
@@ -23,7 +24,6 @@ public class ListView implements ListSelectionListener {
 
         list = new JList(movieNames);
         list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        list.setSelectedIndex(0);
         list.addListSelectionListener(this);
 
         JScrollPane listScrollPane = new JScrollPane(list);
@@ -56,7 +56,7 @@ public class ListView implements ListSelectionListener {
         updateLabel(movieNames[list.getSelectedIndex()]);
     }
 
-    // EFFECTS: Renders the selected image
+    // EFFECTS: Renders the selected image for given movie
     protected void updateLabel(String name) {
         Random rand = new Random();
         String url = "data/images/placeholder" + (rand.nextInt(5) + 1) + ".jpg";

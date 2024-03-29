@@ -15,18 +15,6 @@ public class MovieList {
         movieList = new ArrayList<>();
     }
 
-//    // EFFECTS: returns text output of all movies in list
-//    public String listMovies() {
-//        StringBuilder output = new StringBuilder();
-//
-//        for (Movie movie : movieList) {
-//            output.append(movieList.indexOf(movie) + 1).append(") ")
-//                    .append(movie.getName()).append("\n");
-//        }
-//
-//        return output.toString();
-//    }
-
     // EFFECTS: returns array of all movie names in list
     public String[] listMovies() {
         String[] arr = new String[movieList.size()];

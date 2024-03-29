@@ -3,9 +3,7 @@ package ui;
 import model.*;
 import persistence.JsonReader;
 import persistence.JsonWriter;
-import ui.panels.ListView;
-import ui.panels.LogView;
-import ui.panels.StartMenu;
+import ui.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,13 +12,11 @@ import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Random;
-import java.util.Scanner;
 
 // Movie logging application
 public class MovieLogger implements ActionListener {
 
     private static final String JSON_STORE = "./data/lists.json";
-    private Scanner input;
     private MovieLog movieLog;
     private MovieList watchlist;
     private JsonWriter jsonWriter;
@@ -28,6 +24,7 @@ public class MovieLogger implements ActionListener {
     private static final int WIDTH = 600;
     private static final int HEIGHT = 600;
     private JFrame frame;
+    private String currentPane;
 
     // EFFECTS: begins movie logging app
     public MovieLogger() {
@@ -35,84 +32,13 @@ public class MovieLogger implements ActionListener {
     }
 
     // MODIFIES: this
-    // EFFECTS: reads user input
+    // EFFECTS: initialises movie logger
     private void runMovieLogger() {
-//        String select;
         init();
-
-//        while (true) {
-//            showMenu();
-//            select = input.nextLine().toLowerCase();
-//
-//            if (select.equals("q")) {
-//                break;
-//            }
-//
-//            try {
-//                doCommand(select);
-//            } catch (InputMismatchException | IndexOutOfBoundsException e) {
-//                System.out.println("Invalid input.");
-//            }
-//        }
-//
-//        System.out.println("end");
-
     }
 
-//    // MODIFIES: this
-//    // EFFECTS: processes user actions
-//    private void doCommand(String select) {
-//        if (select.equals("a")) {
-//            showList();
-//        } else if (select.equals("b")) {
-//            randMovie();
-//        } else if (select.equals("c")) {
-//            watchlistAdd();
-//        } else if (select.equals("d")) {
-//            listRemove(watchlist);
-//        } else if (select.equals("e")) {
-//            showLog();
-//        } else if (select.equals("f")) {
-//            logMenu();
-//        } else if (select.equals("g")) {
-//            listRemove(movieLog);
-//        } else if (select.equals("h")) {
-//            saveLists();
-//        } else if (select.equals("i")) {
-//            loadLists();
-//        } else {
-//            throw new InputMismatchException();
-//        }
-//    }
-
-//    // EFFECTS: shows user options
-//    private void showMenu() {
-//        System.out.println("\nSelect action");
-//        System.out.println("\ta) View watchlist");
-//        System.out.println("\tb) Random movie");
-//        System.out.println("\tc) Add to watchlist");
-//        System.out.println("\td) Remove from watchlist");
-//        System.out.println("\te) View log");
-//        System.out.println("\tf) Add to log");
-//        System.out.println("\tg) Remove from log");
-//        System.out.println("\th) Save lists");
-//        System.out.println("\ti) Load lists");
-//        System.out.println("\n\tq) quit");
-//    }
-
-//    // EFFECTS: lists movies on watchlist
-//    private void showList() {
-//        System.out.println("\nMy watchlist:");
-//        System.out.println(watchlist.listMovies());
-//    }
-//
-//    // EFFECTS: lists movies on log
-//    private void showLog() {
-//        System.out.println("\nMy movie log:");
-//        System.out.println(movieLog.outputLog());
-//    }
-
-    // EFFECTS: prints out a random movie name from watchlist
+    // EFFECTS: returns a random movie name from watchlist
+    // returns null if watchlist is empty
     private String randMovie() {
         if (watchlist.getNumMovies() == 0) {
             System.out.println("No movies in watchlist");
@@ -124,21 +50,6 @@ public class MovieLogger implements ActionListener {
 
         return movie.getName();
     }
-
-//    // MODIFIES: this
-//    // EFFECTS: removes selected movie from list
-//    private void listRemove(MovieList list) {
-//        Movie movie = chooseMovie(list);
-//        list.removeMovie(movie);
-//    }
-//
-//    // MODIFIES: this
-//    // EFFECTS: adds a new movie with input name to watchlist
-//    private void watchlistAdd() {
-//        System.out.println("\nEnter title of movie: ");
-//        String name = input.nextLine();
-//        watchlist.addMovie(new Movie(name));
-//    }
 
 //    // MODIFIES: this
 //    // EFFECTS: allows user to either pick a movie from the watchlist or create a new movie to log
@@ -184,15 +95,10 @@ public class MovieLogger implements ActionListener {
 //        }
 //    }
 
-//    // EFFECTS: lists movies in given list, returns chosen movie
-//    private Movie chooseMovie(MovieList list) {
-//        System.out.println("\nPick movie: ");
-//        System.out.println(list.listMovies());
-//        int index = Integer.parseInt(input.nextLine()) - 1;
-//        return list.getMovie(index);
-//    }
 
+    // MODIFIES: this
     // EFFECTS: saves lists to file
+    // throws FileNotFoundException if the file does not exist
     private void saveLists() throws FileNotFoundException {
         jsonWriter.open();
         jsonWriter.write(watchlist, movieLog);
@@ -201,6 +107,7 @@ public class MovieLogger implements ActionListener {
 
     // MODIFIES: this
     // EFFECTS: loads lists from file
+    // throws IOException if error occurs reading file
     private void loadLists() throws IOException {
         MovieList watchlist = new MovieList();
         MovieLog movieLog = new MovieLog();
@@ -214,11 +121,13 @@ public class MovieLogger implements ActionListener {
     private void init() {
         movieLog = new MovieLog();
         watchlist = new MovieList();
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
-        initGraphics();
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                initGraphics();
+            }
+        });
     }
 
     // EFFECTS: creates GUI and displays
@@ -235,8 +144,10 @@ public class MovieLogger implements ActionListener {
         frame.setContentPane(menu.createContentPane());
         frame.pack();
         frame.setVisible(true);
+        currentPane = "menu";
     }
 
+    // EFFECTS: handles menu actions
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() instanceof JMenuItem) {
             JMenuItem source = (JMenuItem) (e.getSource());
@@ -245,23 +156,139 @@ public class MovieLogger implements ActionListener {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: handles different menu selections
     private void handleMenu(String s) {
         if (s.equals("View watchlist")) {
-            listUI();
-        } else if (s.equals("View movie log")) {
-            logUI();
+            viewListUI();
+        } else if (s.equals("Add to watchlist")) {
+            addListUI();
+        } else if (s.equals("Remove from watchlist")) {
+            removeListUI();
         } else if (s.equals("Suggest random movie")) {
             randomUI();
+        } else if (s.equals("View movie log")) {
+            viewLogUI();
+        } else if (s.equals("Log a new movie")) {
+            logUI();
+        } else if (s.equals("Remove from log")) {
+            removeLogUI();
         } else if (s.equals("Save to file")) {
             saveUI();
         } else if (s.equals("Load from file")) {
             loadUI();
         }
+
         frame.revalidate();
         frame.repaint();
         System.out.println(s);
     }
 
+    // EFFECTS: handles list viewing UI
+    // displays error message if watchlist is empty
+    private void viewListUI() {
+        if (watchlist.getNumMovies() == 0) {
+            JOptionPane.showMessageDialog(null, "Watchlist is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
+        } else {
+            ListView view = new ListView(watchlist);
+            frame.setContentPane(view.getSplitPane());
+            currentPane = "list view";
+        }
+    }
+
+    // EFFECTS: handles list addition UI
+    // displays error message if input is blank
+    private void addListUI() {
+        String s = JOptionPane.showInputDialog(null, "Input movie name", "New movie", JOptionPane.QUESTION_MESSAGE);
+        if (s.equals("")) {
+            JOptionPane.showMessageDialog(null, "Invalid input!", "Alert", JOptionPane.ERROR_MESSAGE);
+        } else {
+            watchlist.addMovie(new Movie(s));
+            if (currentPane.equals("list view")) {
+                viewListUI();
+            }
+        }
+    }
+
+    // EFFECTS: handles list removal UI
+    private void removeListUI() {
+        if (watchlist.getNumMovies() == 0) {
+            JOptionPane.showMessageDialog(null, "Watchlist is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
+        } else {
+            RemoveView view = new RemoveView(watchlist);
+            frame.setContentPane(view.getPanel());
+            currentPane = "list remove view";
+        }
+    }
+
+    // EFFECTS: handles random movie UI, displays dialog box with randomly selected movie
+    // displays error message if watchlist is empty
+    private void randomUI() {
+        String movie = randMovie();
+        if (movie == null) {
+            JOptionPane.showMessageDialog(null, "Watchlist is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showInternalMessageDialog(null, "How about " + movie,
+                    "Suggestion", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    // EFFECTS: handles log viewing UI
+    // displays error message if log is empty
+    private void viewLogUI() {
+        if (movieLog.getNumMovies() == 0) {
+            JOptionPane.showMessageDialog(null, "Log is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
+        } else {
+            LogView view = new LogView(movieLog);
+            frame.setContentPane(view.getSplitPane());
+            currentPane = "log view";
+        }
+    }
+
+    // EFFECTS: handles logging UI
+    private void logUI() {
+        String[] options = {"Watchlist", "New"};
+        int n = JOptionPane.showOptionDialog(null, "Log from watchlist or new movie?",
+                "New Log", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[1]);
+
+        String name = "";
+
+        if (n == 0) {
+            if (watchlist.getNumMovies() == 0) {
+                JOptionPane.showMessageDialog(null, "Watchlist is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
+            } else {
+                String[] names = watchlist.listMovies();
+                name = (String) JOptionPane.showInputDialog(null, "Select movie", "New Log",
+                        JOptionPane.PLAIN_MESSAGE, null, names, names[0]);
+            }
+        } else {
+            name = JOptionPane.showInputDialog(null, "Select movie", "New Log",
+                    JOptionPane.PLAIN_MESSAGE);
+        }
+
+        if (name.equals("")) {
+            JOptionPane.showMessageDialog(null, "Invalid input!", "Alert", JOptionPane.ERROR_MESSAGE);
+        } else {
+            LoggerView view = new LoggerView(name);
+            frame.setContentPane(view.getPanel());
+            currentPane = "logger view";
+        }
+    }
+
+    // EFFECTS: handles log removal UI
+    private void removeLogUI() {
+        if (movieLog.getNumMovies() == 0) {
+            JOptionPane.showMessageDialog(null, "Log is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
+        } else {
+            RemoveView view = new RemoveView(movieLog);
+            frame.setContentPane(view.getPanel());
+            currentPane = "log remove view";
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: handles saving UI, saves data to files
+    // displays error message if file does not exist
     private void saveUI() {
         JDialog popup = new JDialog();
         popup.setUndecorated(true);
@@ -281,6 +308,9 @@ public class MovieLogger implements ActionListener {
         popup.dispose();
     }
 
+    // MODIFIES: this
+    // EFFECTS: handles file loading UI, loads data from files
+    // displays error message if file cannot be read
     private void loadUI() {
         JDialog popup = new JDialog();
         popup.setUndecorated(true);
@@ -298,33 +328,5 @@ public class MovieLogger implements ActionListener {
                     "Alert", JOptionPane.ERROR_MESSAGE);
         }
         popup.dispose();
-    }
-
-    private void randomUI() {
-        String movie = randMovie();
-        if (movie == null) {
-            JOptionPane.showMessageDialog(null, "Watchlist is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showInternalMessageDialog(null, "How about " + movie,
-                    "Suggestion", JOptionPane.INFORMATION_MESSAGE);
-        }
-    }
-
-    private void listUI() {
-        if (watchlist.getNumMovies() == 0) {
-            JOptionPane.showMessageDialog(null, "Watchlist is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
-        } else {
-            ListView view = new ListView(watchlist);
-            frame.setContentPane(view.getSplitPane());
-        }
-    }
-
-    private void logUI() {
-        if (movieLog.getNumMovies() == 0) {
-            JOptionPane.showMessageDialog(null, "Log is empty!", "Alert", JOptionPane.ERROR_MESSAGE);
-        } else {
-            LogView view = new LogView(movieLog);
-            frame.setContentPane(view.getSplitPane());
-        }
     }
 }

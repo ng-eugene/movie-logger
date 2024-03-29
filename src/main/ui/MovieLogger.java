@@ -87,7 +87,7 @@ public class MovieLogger implements ActionListener {
 
     // EFFECTS: creates GUI and displays
     private void initGraphics() {
-        frame = new JFrame("Frame");
+        frame = new JFrame("Movie Logger");
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -51,6 +51,7 @@ public class ListView implements ListSelectionListener {
     }
 
     // EFFECTS: listens to list events
+    @Override
     public void valueChanged(ListSelectionEvent e) {
         JList list = (JList)e.getSource();
         updateLabel(movieNames[list.getSelectedIndex()]);

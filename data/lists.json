@@ -1,22 +1,4 @@
 {
-    "log": [
-        {
-            "date": "2024-01-15",
-            "review": "William",
-            "rewatch": true,
-            "name": "Good Will Hunting",
-            "rating": 9.235
-        },
-        {
-            "date": "2024-02-20",
-            "review": "Leave the gun take the cannoli",
-            "rewatch": true,
-            "name": "Godfather",
-            "rating": 9.464352111
-        }
-    ],
-    "watchlist": [
-        {"name": "dafsd ad"},
-        {"name": " as ds "}
-    ]
+    "log": [],
+    "watchlist": []
 }

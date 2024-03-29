@@ -1,77 +1,89 @@
 package ui.panels;
 
+import model.Movie;
+import model.MovieList;
+import model.MovieLog;
+import model.exceptions.InvalidRatingException;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
-public class LoggerView implements ActionListener, FocusListener {
+// View for logging new movie
+public class LoggerView implements ActionListener {
 
     private JSlider ratingSlider;
-    private JTextField reviewField;
+    private JTextArea reviewField;
     private JCheckBox rewatchBox;
     private JButton submitButton;
     private JPanel panel;
     private String name;
+    private MovieLog log;
+    private MovieList watchlist;
 
-    public LoggerView(String name) {
+    // MODIFIES: this
+    // EFFECTS: creates panel with fields
+    public LoggerView(String name, MovieLog log, MovieList watchlist) {
         this.name = name;
-        panel = new JPanel(new SpringLayout());
+        this.log = log;
+        this.watchlist = watchlist;
 
-        String[] labelStr = {"Rating: ", "Review: ", "Rewatch? "};
-
-        JLabel[] labels = new JLabel[labelStr.length];
-        JComponent[] fields = new JComponent[labelStr.length];
-        int n = 0;
+        panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        panel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
         ratingSlider = new JSlider(JSlider.HORIZONTAL, 10);
-        fields[n++] = ratingSlider;
+        ratingSlider.setMajorTickSpacing(10);
+        ratingSlider.setMinorTickSpacing(1);
+        ratingSlider.setPaintTicks(true);
+        ratingSlider.setPaintLabels(true);
 
-        reviewField = new JTextField();
-        reviewField.setColumns(20);
-        fields[n++] = reviewField;
+        reviewField = new JTextArea();
+        reviewField.setLineWrap(true);
 
         rewatchBox = new JCheckBox("Rewatch");
-        fields[n++] = rewatchBox;
 
         submitButton = new JButton("Submit");
+        submitButton.addActionListener(this);
 
-        for (int i = 0; i < labelStr.length; i++) {
-            labels[i] = new JLabel(labelStr[i],
-                    JLabel.TRAILING);
-            labels[i].setLabelFor(fields[i]);
-            panel.add(labels[i]);
-            panel.add(fields[i]);
+        panel.add(new JLabel("Rating:"));
+        panel.add(ratingSlider);
+        panel.add(new JLabel("Review:"));
+        panel.add(reviewField);
+        panel.add(rewatchBox);
+        panel.add(submitButton);
+    }
+
+    // EFFECTS: handles submit button
+    public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Submit")) {
+            logMovie();
         }
-
-        setListeners();
     }
 
     // MODIFIES: this
-    // EFFECTS: adds listeners for each field
-    private void setListeners() {
-        reviewField.addFocusListener(this);
+    // EFFECTS: logs movie, removes view
+    private void logMovie() {
+        int rating = ratingSlider.getValue();
+        String review = reviewField.getText();
+        Boolean rewatch = rewatchBox.isSelected();
+        Movie movie = new Movie(name);
 
-        ratingSlider.addFocusListener(this);
+        try {
+            movie.logMovie(rating, review, rewatch);
+            log.addMovie(movie);
+            watchlist.removeMovie(movie);
+        } catch (InvalidRatingException e) {
+            JOptionPane.showMessageDialog(null, "Invalid input!", "Alert", JOptionPane.ERROR_MESSAGE);
+        }
 
-        rewatchBox.addFocusListener(this);
-
-        submitButton.addActionListener(this);
+        panel.removeAll();
+        panel.revalidate();
+        panel.repaint();
+        JOptionPane.showMessageDialog(null, "Movie successfully logged", "Success", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getSource());
-    }
-
-    public void focusGained(FocusEvent e) {
-        System.out.println(e.getSource());
-    }
-
-    public void focusLost(FocusEvent e) {
-
-    }
-
+    // EFFECTS: returns panel
     public JPanel getPanel() {
         return panel;
     }

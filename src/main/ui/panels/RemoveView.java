@@ -54,6 +54,7 @@ public class RemoveView implements ListSelectionListener, ActionListener {
 
     // MODIFIES: this
     // EFFECTS: removes selected movie from list
+    @Override
     public void actionPerformed(ActionEvent e) {
         int index = list.getSelectedIndex();
         movieList.removeMovie(movieList.getMovie(index));
@@ -69,6 +70,7 @@ public class RemoveView implements ListSelectionListener, ActionListener {
 
     // MODIFIES: this
     // EFFECTS: changes button state depending on list selection
+    @Override
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             if (list.getSelectedIndex() == -1) {

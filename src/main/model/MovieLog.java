@@ -8,18 +8,6 @@ public class MovieLog extends MovieList {
         super();
     }
 
-    // EFFECTS: returns text output of all movies in list along with
-    // rating, review, date watched, and whether you would rewatch
-    public String outputLog() {
-        StringBuilder output = new StringBuilder();
-
-        for (Movie movie : movieList) {
-            output.append(outputMovie(movie));
-        }
-
-        return output.toString();
-    }
-
     // EFFECTS: returns text output of given movie with rating, review,
     // date watched, rewatch
     public String outputMovie(Movie movie) {

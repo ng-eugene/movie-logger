@@ -16,7 +16,8 @@ public class RemoveView implements ListSelectionListener, ActionListener {
     private JList list;
     private DefaultListModel listModel;
     private String[] movieNames;
-    private JButton btn;
+    private JButton removeBtn;
+    private JButton closeBtn;
     private JPanel panel;
 
     // MODIFIES: this
@@ -37,14 +38,13 @@ public class RemoveView implements ListSelectionListener, ActionListener {
         list.addListSelectionListener(this);
         JScrollPane listScrollPane = new JScrollPane(list);
 
-        btn = new JButton("Remove");
-        btn.setActionCommand("Remove");
-        btn.addActionListener(this);
+        initButtons();
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new BoxLayout(buttonPane,
                 BoxLayout.LINE_AXIS));
-        buttonPane.add(btn);
+        buttonPane.add(removeBtn);
+        buttonPane.add(closeBtn);
         buttonPane.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 
         panel = new JPanel(new BorderLayout());
@@ -53,15 +53,34 @@ public class RemoveView implements ListSelectionListener, ActionListener {
     }
 
     // MODIFIES: this
+    // EFFECTS: initialises buttons
+    private void initButtons() {
+        removeBtn = new JButton("Remove");
+        removeBtn.setActionCommand("Remove");
+        removeBtn.addActionListener(this);
+
+        closeBtn = new JButton("Close");
+        closeBtn.setActionCommand("Close");
+        closeBtn.addActionListener(this);
+    }
+
+    // MODIFIES: this
     // EFFECTS: removes selected movie from list
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (e.getActionCommand().equals("Close")) {
+            panel.removeAll();
+            panel.revalidate();
+            panel.repaint();
+            return;
+        }
+
         int index = list.getSelectedIndex();
         movieList.removeMovie(movieList.getMovie(index));
         listModel.remove(index);
 
         if (listModel.size() == 0) {
-            btn.setEnabled(false);
+            removeBtn.setEnabled(false);
         } else {
             list.setSelectedIndex(0);
             list.ensureIndexIsVisible(index);
@@ -74,9 +93,9 @@ public class RemoveView implements ListSelectionListener, ActionListener {
     public void valueChanged(ListSelectionEvent e) {
         if (!e.getValueIsAdjusting()) {
             if (list.getSelectedIndex() == -1) {
-                btn.setEnabled(false);
+                removeBtn.setEnabled(false);
             } else {
-                btn.setEnabled(true);
+                removeBtn.setEnabled(true);
             }
         }
     }

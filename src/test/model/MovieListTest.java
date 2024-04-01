@@ -4,6 +4,9 @@ import org.json.JSONArray;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MovieListTest {
@@ -11,12 +14,14 @@ public class MovieListTest {
     private MovieList movieList;
     private Movie movie1;
     private Movie movie2;
+    private Movie movie3;
 
     @BeforeEach
     public void setup() {
         movieList = new MovieList();
         movie1 = new Movie("Interstellar");
         movie2 = new Movie("Heat");
+        movie3 = new Movie("Cars");
     }
 
     @Test
@@ -34,7 +39,7 @@ public class MovieListTest {
     @Test
     public void getMovieNameNoneTest() {
         movieList.addMovie(movie1);
-        assertEquals(null, movieList.getMovie("Heat"));
+        assertNull(movieList.getMovie("Heat"));
     }
 
     @Test
@@ -79,6 +84,24 @@ public class MovieListTest {
 
         assertEquals("Interstellar", js.getJSONObject(0).get("name"));
         assertEquals("Heat", js.getJSONObject(1).get("name"));
+    }
+
+    // Small chance that the test may fail when it shouldn't (e-18)
+    @Test
+    public void randomTest() {
+        movieList.addMovie(movie1);
+        movieList.addMovie(movie2);
+        movieList.addMovie(movie3);
+        Set<Movie> set = new HashSet<>();
+
+        for (int i = 0; i < 100; i++) {
+            Movie movie = movieList.getRandom();
+            set.add(movie);
+        }
+
+        assertTrue(set.contains(movie1));
+        assertTrue(set.contains(movie2));
+        assertTrue(set.contains(movie3));
     }
 
 }

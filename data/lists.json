@@ -1,4 +1,13 @@
 {
-    "log": [],
-    "watchlist": []
+    "log": [{
+        "date": "2024-04-01",
+        "review": "",
+        "rewatch": false,
+        "name": "asdf",
+        "rating": 5
+    }],
+    "watchlist": [
+        {"name": "asdf"},
+        {"name": "asdf"}
+    ]
 }

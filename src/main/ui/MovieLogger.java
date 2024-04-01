@@ -1,6 +1,7 @@
 package ui;
 
 import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.panels.*;
@@ -9,9 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Random;
 
 // Movie logging application
 public class MovieLogger implements ActionListener {
@@ -37,40 +39,6 @@ public class MovieLogger implements ActionListener {
         init();
     }
 
-    // EFFECTS: returns a random movie name from watchlist
-    // returns null if watchlist is empty
-    private String randMovie() {
-        if (watchlist.getNumMovies() == 0) {
-            System.out.println("No movies in watchlist");
-            return null;
-        }
-
-        Random rand = new Random();
-        Movie movie = watchlist.getMovie(rand.nextInt(watchlist.getNumMovies()));
-
-        return movie.getName();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: saves lists to file
-    // throws FileNotFoundException if the file does not exist
-    private void saveLists() throws FileNotFoundException {
-        jsonWriter.open();
-        jsonWriter.write(watchlist, movieLog);
-        jsonWriter.close();
-    }
-
-    // MODIFIES: this
-    // EFFECTS: loads lists from file
-    // throws IOException if error occurs reading file
-    private void loadLists() throws IOException {
-        MovieList watchlist = new MovieList();
-        MovieLog movieLog = new MovieLog();
-        jsonReader.read(watchlist, movieLog);
-        this.watchlist = watchlist;
-        this.movieLog = movieLog;
-    }
-
     // MODIFIES: this
     // EFFECTS: initialises lists, scanners, read/writers, graphics
     private void init() {
@@ -90,8 +58,15 @@ public class MovieLogger implements ActionListener {
         frame = new JFrame("Movie Logger");
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.setLocationRelativeTo(null);
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent event) {
+                exitProc();
+            }
+        });
 
         StartMenu menu = new StartMenu(this);
         frame.setJMenuBar(menu.createMenuBar());
@@ -111,9 +86,9 @@ public class MovieLogger implements ActionListener {
                 handleMenu(s);
             }
         } catch (Exception exception) {
-            System.out.println(exception);
             frame.setVisible(false);
             frame.dispose();
+            throw exception;
         }
     }
 
@@ -227,7 +202,7 @@ public class MovieLogger implements ActionListener {
                     JOptionPane.PLAIN_MESSAGE);
         }
 
-        if (name.equals("")) {
+        if (name == null || name.trim().equals("")) {
             JOptionPane.showMessageDialog(null, "Invalid input!", "Alert", JOptionPane.ERROR_MESSAGE);
         } else {
             LoggerView view = new LoggerView(name, movieLog, watchlist);
@@ -287,5 +262,46 @@ public class MovieLogger implements ActionListener {
                     "Alert", JOptionPane.ERROR_MESSAGE);
         }
         popup.dispose();
+    }
+
+
+    // EFFECTS: returns a random movie name from watchlist
+    // returns null if watchlist is empty
+    private String randMovie() {
+        if (watchlist.getNumMovies() == 0) {
+            System.out.println("No movies in watchlist");
+            return null;
+        }
+
+        return watchlist.getRandom().getName();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: saves lists to file
+    // throws FileNotFoundException if the file does not exist
+    private void saveLists() throws FileNotFoundException {
+        jsonWriter.open();
+        jsonWriter.write(watchlist, movieLog);
+        jsonWriter.close();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads lists from file
+    // throws IOException if error occurs reading file
+    private void loadLists() throws IOException {
+        MovieList watchlist = new MovieList();
+        MovieLog movieLog = new MovieLog();
+        jsonReader.read(watchlist, movieLog);
+        this.watchlist = watchlist;
+        this.movieLog = movieLog;
+        EventLog.getInstance().clear();
+    }
+
+    private void exitProc() {
+        for (Event e : EventLog.getInstance()) {
+            System.out.println(e.toString());
+        }
+        frame.dispose();
+        System.exit(0);
     }
 }

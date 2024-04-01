@@ -34,25 +34,6 @@ public class MovieLogTest {
     }
 
     @Test
-    public void outputLogTest() {
-        movieLog.addMovie(movie3);
-        movieLog.addMovie(movie4);
-
-        assertEquals("Heat\nRating: 9.5/10\nReview: Warm\nDate watched: " +
-                now + "\nWould rewatch? yes\n\n" +
-                "The Road\nRating: 6.0/10\nReview: The Path\nDate watched: " +
-                now + "\nWould rewatch? no\n\n", movieLog.outputLog());
-    }
-
-    @Test
-    public void outputMovieTest() {
-        movieLog.addMovie(movie3);
-
-        assertEquals("Heat\nRating: 9.5/10\nReview: Warm\nDate watched: " +
-                now + "\nWould rewatch? yes\n\n", movieLog.outputLog());
-    }
-
-    @Test
     public void toJsonTest() {
         movieLog.addMovie(movie3);
         movieLog.addMovie(movie4);

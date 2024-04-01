@@ -49,6 +49,26 @@ it to my 'watched' list, add a rating and a review
 1. Select the menu tab "Save/Load"
 2. Select the menu item "Load from file"
 
+## Phase 4: Task 2
+* Mon Apr 01 12:59:58 PDT 2024
+* Added a movie 1 to MovieList
+* Mon Apr 01 13:00:00 PDT 2024
+* Added a movie 2 to MovieList
+* Mon Apr 01 13:00:03 PDT 2024
+* Removed movie 2 from MovieList
+* Mon Apr 01 13:00:12 PDT 2024
+* Logged movie 4
+* Mon Apr 01 13:00:12 PDT 2024
+* Added a movie 4 to MovieLog
+* Mon Apr 01 13:00:19 PDT 2024
+* Logged movie 1
+* Mon Apr 01 13:00:19 PDT 2024
+* Added a movie 1 to MovieLog
+* Mon Apr 01 13:00:23 PDT 2024
+* Removed movie 4 from MovieLog
+* Mon Apr 01 13:00:27 PDT 2024
+* Randomly generated movie 1
+
 
 ### References:
 - https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo

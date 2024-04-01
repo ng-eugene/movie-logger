@@ -16,7 +16,7 @@ public class Movie {
 
     // EFFECTS: creates new movie with given name
     public Movie(String name) {
-        this.name = name;
+        this.name = name.trim();
     }
 
     // MODIFIES: this
@@ -31,6 +31,8 @@ public class Movie {
         this.rating = rating;
         this.review = review;
         this.rewatch = rewatch;
+
+        EventLog.getInstance().logEvent(new Event("Logged movie " + name));
     }
 
     // MODIFIES: this

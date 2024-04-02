@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Calendar;
 import java.util.Date;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Unit tests for the Event class
@@ -35,4 +35,16 @@ public class EventTest {
 	public void testToString() {
 		assertEquals(d.toString() + "\n" + "New movie added to list", e.toString());
 	}
+
+    @Test
+    public void testEquals() {
+        assertNotEquals(null, e);
+        assertNotEquals(d, e);
+        assertEquals(e, e);
+    }
+
+    @Test
+    public void testHash() {
+        assertEquals(13 * e.getDate().hashCode() + e.getDescription().hashCode(), e.hashCode());
+    }
 }

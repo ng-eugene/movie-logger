@@ -56,6 +56,7 @@ public class MovieListTest {
         assertEquals(1, movieList.getNumMovies());
         movieList.removeMovie(movie1);
         assertEquals(0, movieList.getNumMovies());
+        movieList.removeMovie(movie1);
     }
 
     @Test

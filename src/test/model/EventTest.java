@@ -38,8 +38,8 @@ public class EventTest {
 
     @Test
     public void testEquals() {
-        assertNotEquals(null, e);
-        assertNotEquals(d, e);
+        assertFalse(e.equals(null));
+        assertFalse(e.equals(d));
         assertEquals(e, e);
     }
 

@@ -69,6 +69,16 @@ it to my 'watched' list, add a rating and a review
 * Mon Apr 01 13:00:27 PDT 2024
 * Randomly generated movie 1
 
+## Phase 4: Task 3
+One particular area of my code that I would like to refactor with more time/knowledge would 
+be the UI portion of my code, particularly having a more streamlined way of swapping
+between the different views instead of creating new instances every time a new view is
+required. 
+
+One way to do this could be to create each view as a singleton instance with lazy 
+initialisation, updating the data within each view as needed. This would mean less 
+potential issues with excess instances floating around as well as maintain efficient
+resource utilisation.
 
 ### References:
 - https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo

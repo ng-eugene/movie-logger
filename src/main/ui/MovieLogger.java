@@ -255,7 +255,7 @@ public class MovieLogger implements ActionListener {
         popup.setVisible(true);
         try {
             loadLists();
-            JOptionPane.showInternalMessageDialog(null, "Saved lists to " + JSON_STORE,
+            JOptionPane.showInternalMessageDialog(null, "Loaded lists from " + JSON_STORE,
                     "Alert", JOptionPane.INFORMATION_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Could not load from " + JSON_STORE,

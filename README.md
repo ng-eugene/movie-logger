@@ -79,8 +79,3 @@ One way to do this could be to create each view as a singleton instance with laz
 initialisation, updating the data within each view as needed. This would mean less 
 potential issues with excess instances floating around as well as maintain efficient
 resource utilisation.
-
-### References:
-- https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
-- https://github.students.cs.ubc.ca/CPSC210/TellerApp
-- https://docs.oracle.com/javase/tutorial/uiswing/examples/components/index.html

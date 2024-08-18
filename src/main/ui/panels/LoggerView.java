@@ -72,7 +72,7 @@ public class LoggerView implements ActionListener {
         try {
             movie.logMovie(rating, review, rewatch);
             log.addMovie(movie);
-            watchlist.removeMovie(movie);
+            watchlist.removeMovie(watchlist.getMovie(name));
         } catch (InvalidRatingException e) {
             JOptionPane.showMessageDialog(null, "Invalid input!", "Alert", JOptionPane.ERROR_MESSAGE);
         }

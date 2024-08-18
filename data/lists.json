@@ -1,13 +1,19 @@
 {
-    "log": [{
-        "date": "2024-04-01",
-        "review": "",
-        "rewatch": false,
-        "name": "asdf",
-        "rating": 5
-    }],
-    "watchlist": [
-        {"name": "asdf"},
-        {"name": "asdf"}
-    ]
+    "log": [
+        {
+            "date": "2024-04-14",
+            "review": "Good",
+            "rewatch": true,
+            "name": "Good Will Hunting",
+            "rating": 9
+        },
+        {
+            "date": "2024-04-14",
+            "review": "Fish",
+            "rewatch": false,
+            "name": "Finding Nemo",
+            "rating": 9
+        }
+    ],
+    "watchlist": [{"name": "ET"}]
 }

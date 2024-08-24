@@ -1,5 +1,3 @@
-# My Personal Project
-
 ## A movie logger
 
 The application will log the **movies** a user watches, alongside

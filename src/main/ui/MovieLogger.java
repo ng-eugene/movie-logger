@@ -74,6 +74,7 @@ public class MovieLogger implements ActionListener {
         frame.setContentPane(menu.createContentPane());
         frame.pack();
         frame.setVisible(true);
+        currentPane = "";
     }
 
     // EFFECTS: handles menu actions
@@ -95,8 +96,6 @@ public class MovieLogger implements ActionListener {
     // MODIFIES: this
     // EFFECTS: handles different menu selections
     private void handleMenu(String s) {
-        currentPane = "";
-
         if (s.equals("View watchlist")) {
             viewListUI();
             currentPane = "list view";
@@ -104,14 +103,18 @@ public class MovieLogger implements ActionListener {
             addListUI();
         } else if (s.equals("Remove from watchlist")) {
             removeListUI();
+            currentPane = "remove list view";
         } else if (s.equals("Suggest random movie")) {
             randomUI();
         } else if (s.equals("View movie log")) {
             viewLogUI();
+            currentPane = "log view";
         } else if (s.equals("Log a new movie")) {
             logUI();
+            currentPane = "logger view";
         } else if (s.equals("Remove from log")) {
             removeLogUI();
+            currentPane = "remove log view";
         } else if (s.equals("Save to file")) {
             saveUI();
         } else if (s.equals("Load from file")) {
@@ -137,7 +140,7 @@ public class MovieLogger implements ActionListener {
     // displays error message if input is blank
     private void addListUI() {
         String s = JOptionPane.showInputDialog(null, "Input movie name", "New movie", JOptionPane.QUESTION_MESSAGE);
-        if (s.equals("")) {
+        if (s == null || s.equals("")) {
             JOptionPane.showMessageDialog(null, "Invalid input!", "Alert", JOptionPane.ERROR_MESSAGE);
         } else {
             watchlist.addMovie(new Movie(s));
@@ -262,6 +265,11 @@ public class MovieLogger implements ActionListener {
                     "Alert", JOptionPane.ERROR_MESSAGE);
         }
         popup.dispose();
+        if (currentPane.equals("list view")) {
+            viewListUI();
+        } else if (currentPane.equals("log view")) {
+            viewLogUI();
+        }
     }
 
 
